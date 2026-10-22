@@ -47,6 +47,49 @@
             </div>
         </section>
 
+        <section class="dashboard-report" aria-labelledby="dashboard-report-title">
+            <div class="report-heading">
+                <span class="eyebrow">At a glance</span>
+                <h2 id="dashboard-report-title">Student and department summary</h2>
+            </div>
+
+            <div class="report-stat-grid">
+                <article class="report-stat">
+                    <span class="card-index">TOTAL STUDENTS</span>
+                    <strong class="report-count">{{ $studentCount }}</strong>
+                    <p>{{ \Illuminate\Support\Str::plural('student record', $studentCount) }} in the system</p>
+                </article>
+                <article class="report-stat">
+                    <span class="card-index">TOTAL DEPARTMENTS</span>
+                    <strong class="report-count">{{ $departmentCount }}</strong>
+                    <p>{{ \Illuminate\Support\Str::plural('department', $departmentCount) }} available</p>
+                </article>
+                <article class="report-stat">
+                    <span class="card-index">UNASSIGNED STUDENTS</span>
+                    <strong class="report-count">{{ $unassignedStudentCount }}</strong>
+                    <p>{{ \Illuminate\Support\Str::plural('student', $unassignedStudentCount) }} without a department</p>
+                </article>
+            </div>
+
+            <section class="department-report" aria-labelledby="department-report-title">
+                <h3 id="department-report-title">Students by department</h3>
+                <ul class="department-report-list">
+                    @forelse ($departmentStudentCounts as $department)
+                        <li>
+                            <a href="{{ route('departments.show', $department) }}">
+                                {{ $department->name }} <span>({{ $department->code }})</span>
+                            </a>
+                            <span class="department-report-count">
+                                {{ $department->students_count }} {{ \Illuminate\Support\Str::plural('student', $department->students_count) }}
+                            </span>
+                        </li>
+                    @empty
+                        <li class="department-report-empty">No departments have been added yet.</li>
+                    @endforelse
+                </ul>
+            </section>
+        </section>
+
         <section class="dashboard-overview" aria-label="Student record summary">
             <article class="dashboard-stat">
                 <span class="card-index">TOTAL RECORDS</span>
@@ -251,7 +294,9 @@
         }
 
         .dashboard-stat,
-        .dashboard-recent {
+        .dashboard-recent,
+        .report-stat,
+        .department-report {
             padding: 24px;
             border: 1px solid var(--line);
             border-radius: 18px;
@@ -266,6 +311,92 @@
             font-size: 3.2rem;
             letter-spacing: -0.07em;
             line-height: 1;
+        }
+
+        .dashboard-report {
+            margin-top: 42px;
+        }
+
+        .report-heading {
+            margin-bottom: 17px;
+        }
+
+        .report-heading h2 {
+            margin: 8px 0 0;
+            color: var(--forest);
+            font-size: clamp(1.45rem, 3vw, 1.9rem);
+            letter-spacing: -0.045em;
+        }
+
+        .report-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .report-stat {
+            min-width: 0;
+        }
+
+        .report-count {
+            display: block;
+            margin-top: 12px;
+            color: var(--forest);
+            font-size: 2.7rem;
+            font-weight: 750;
+            letter-spacing: -0.07em;
+            line-height: 1;
+        }
+
+        .report-stat p {
+            margin: 9px 0 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .department-report {
+            margin-top: 17px;
+        }
+
+        .department-report h3 {
+            margin: 0;
+            color: var(--forest);
+            font-size: 1.08rem;
+            letter-spacing: -0.025em;
+        }
+
+        .department-report-list {
+            display: grid;
+            gap: 0;
+            margin: 15px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .department-report-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 12px 0;
+            border-top: 1px solid #edf3ef;
+        }
+
+        .department-report-list a {
+            color: #176b40;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .department-report-count {
+            flex: 0 0 auto;
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .department-report-empty {
+            color: var(--muted);
+            font-size: 0.9rem;
         }
 
         .dashboard-stat p {
@@ -605,6 +736,10 @@
             }
 
             .dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .report-stat-grid {
                 grid-template-columns: 1fr;
             }
 

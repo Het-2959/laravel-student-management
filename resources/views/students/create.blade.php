@@ -48,17 +48,20 @@
             font-weight: 700;
         }
 
-        .student-field input {
+        .student-field input,
+        .student-field select {
             width: 100%;
             min-height: 48px;
             padding: 11px 14px;
             border: 1px solid #cbdacf;
             border-radius: 10px;
             color: #18382a;
+            background: #fff;
             font: inherit;
         }
 
-        .student-field input:focus {
+        .student-field input:focus,
+        .student-field select:focus {
             border-color: #198754;
             outline: 3px solid rgb(25 135 84 / 15%);
         }
@@ -139,6 +142,25 @@
                     >
                     @error('email')
                         <span class="student-error" id="email-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="student-field">
+                    <label for="department_id">Department <span>(optional)</span></label>
+                    <select
+                        id="department_id"
+                        name="department_id"
+                        @if ($errors->has('department_id')) aria-invalid="true" aria-describedby="department-id-error" @endif
+                    >
+                        <option value="">Not assigned</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->id }}" @selected((string) old('department_id') === (string) $department->id)>
+                                {{ $department->name }} ({{ $department->code }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('department_id')
+                        <span class="student-error" id="department-id-error">{{ $message }}</span>
                     @enderror
                 </div>
 

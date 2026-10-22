@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#123D2A">
     <title>@yield('title', 'Student Management System')</title>
+
     <style>
         :root {
             color-scheme: light;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+                BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: #18382a;
             background: #f4faf6;
             font-synthesis: none;
             text-rendering: optimizeLegibility;
+
             --forest: #123d2a;
             --forest-deep: #0b2b1d;
             --emerald: #198754;
@@ -38,7 +42,11 @@
             display: flex;
             flex-direction: column;
             background:
-                radial-gradient(ellipse at 8% 14%, rgb(221 245 229 / 56%), transparent 28rem),
+                radial-gradient(
+                    ellipse at 8% 14%,
+                    rgb(221 245 229 / 56%),
+                    transparent 28rem
+                ),
                 #f4faf6;
         }
 
@@ -140,7 +148,10 @@
             font-size: 0.91rem;
             font-weight: 650;
             text-decoration: none;
-            transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+            transition:
+                color 180ms ease,
+                background 180ms ease,
+                transform 180ms ease;
         }
 
         .nav-links a:hover {
@@ -152,6 +163,18 @@
         .nav-links a.active {
             background: var(--mint);
             color: #145b36;
+        }
+
+        .nav-user {
+            padding: 10px;
+            color: #198754;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .logout-form {
+            display: inline;
+            margin: 0;
         }
 
         .menu-toggle {
@@ -232,7 +255,10 @@
             font-size: 0.92rem;
             font-weight: 750;
             text-decoration: none;
-            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+            transition:
+                transform 180ms ease,
+                box-shadow 180ms ease,
+                background 180ms ease;
         }
 
         .button:hover {
@@ -265,7 +291,11 @@
             position: relative;
             overflow: hidden;
             background:
-                radial-gradient(circle at 90% 20%, rgb(25 135 84 / 27%), transparent 17rem),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgb(25 135 84 / 27%),
+                    transparent 17rem
+                ),
                 var(--forest);
             color: #eaf5ed;
         }
@@ -327,12 +357,11 @@
             }
         }
 
-        @media (max-width: 760px) {
+        @media (max-width: 960px) {
             .header-inner {
-                min-height: 72px;
                 flex-wrap: wrap;
-                gap: 0 14px;
-                padding-block: 13px;
+                gap: 14px;
+                padding-block: 16px;
             }
 
             .brand {
@@ -362,6 +391,18 @@
 
             .nav-links a {
                 border-radius: 10px;
+            }
+
+            .nav-user {
+                padding: 10px 15px;
+            }
+
+            .logout-form {
+                display: block;
+            }
+
+            .logout-form .button {
+                width: 100%;
             }
 
             .page-shell {
@@ -414,68 +455,161 @@
             }
         }
     </style>
+
     @stack('styles')
 </head>
+
 <body>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="{{ route('home') }}" aria-label="Student Management System home">
+
+            <a class="brand" href="{{ route('home') }}"
+               aria-label="Student Management System home">
                 <span class="brand-mark" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4.5 17.8 8 6.2h2.1l3.5 11.6h-2.2l-.8-2.9H7.5l-.8 2.9H4.5Zm3.5-4.7h2.1L9 9.2l-1 3.9ZM15 17.8V6.2h4.1c2.1 0 3.4 1.1 3.4 3 0 1.3-.7 2.2-1.8 2.6 1.4.3 2.2 1.3 2.2 2.8 0 2-1.4 3.2-3.6 3.2H15Zm2-6.8h1.8c1.1 0 1.7-.5 1.7-1.5s-.6-1.5-1.7-1.5H17v3Zm0 5h2c1.2 0 1.8-.6 1.8-1.7s-.6-1.7-1.8-1.7h-2V16Z" fill="white"/>
+                        <path
+                            d="M4.5 17.8 8 6.2h2.1l3.5 11.6h-2.2l-.8-2.9H7.5l-.8 2.9H4.5Zm3.5-4.7h2.1L9 9.2l-1 3.9ZM15 17.8V6.2h4.1c2.1 0 3.4 1.1 3.4 3 0 1.3-.7 2.2-1.8 2.6 1.4.3 2.2 1.3 2.2 2.8 0 2-1.4 3.2-3.6 3.2H15Zm2-6.8h1.8c1.1 0 1.7-.5 1.7-1.5s-.6-1.5-1.7-1.5H17v3Zm0 5h2c1.2 0 1.8-.6 1.8-1.7s-.6-1.7-1.8-1.7h-2V16Z"
+                            fill="white"/>
                     </svg>
                 </span>
+
                 <span>Student Management System</span>
             </a>
 
             <div class="header-right">
-                <span class="header-badge">PRACTICAL 10</span>
-                <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <span class="header-badge">PRACTICAL 29</span>
+
+                <button class="menu-toggle" type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="primary-navigation">
+                    <svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.8"
+                        stroke-linecap="round" aria-hidden="true">
                         <path d="M4 7h16M4 12h16M4 17h16"/>
                     </svg>
                 </button>
             </div>
 
-            <nav class="nav-links" id="primary-navigation" aria-label="Main navigation">
-                <a href="{{ route('home') }}" @if (request()->routeIs('home')) class="active" aria-current="page" @endif>Home</a>
-                <a href="{{ route('students.index') }}" @if (request()->routeIs('students.*')) class="active" aria-current="page" @endif>Students</a>
-                <a href="{{ route('about') }}" @if (request()->routeIs('about')) class="active" aria-current="page" @endif>About</a>
-                <a href="{{ route('contact') }}" @if (request()->routeIs('contact')) class="active" aria-current="page" @endif>Contact</a>
+            <nav class="nav-links" id="primary-navigation"
+                 aria-label="Main navigation">
+
+                <a href="{{ route('home') }}"
+                   @if (request()->routeIs('home')) class="active" aria-current="page" @endif>
+                    Home
+                </a>
+
+                <a href="{{ route('students.index') }}"
+                   @if (request()->routeIs('students.*')) class="active" aria-current="page" @endif>
+                    Students
+                </a>
+
+                <a href="{{ route('about') }}"
+                   @if (request()->routeIs('about')) class="active" aria-current="page" @endif>
+                    About
+                </a>
+
+                <a href="{{ route('contact') }}"
+                   @if (request()->routeIs('contact')) class="active" aria-current="page" @endif>
+                    Contact
+                </a>
+
+                @auth
+                    <span class="nav-user">
+                        {{ auth()->user()->name }}
+                    </span>
+
+                    <form method="POST" action="{{ route('logout') }}"
+                          class="logout-form">
+                        @csrf
+
+                        <button type="submit"
+                            class="button button-primary"
+                            style="min-height:40px;padding:0 14px;cursor:pointer;">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}"
+                       @if (request()->routeIs('login')) class="active" @endif>
+                        Login
+                    </a>
+
+                    <a href="{{ route('register') }}"
+                       @if (request()->routeIs('register')) class="active" @endif>
+                        Register
+                    </a>
+                @endauth
             </nav>
+
         </div>
     </header>
 
     <main id="main-content">
+        @if (session('success'))
+            <div class="page-shell" style="padding-bottom:0;">
+                <div role="status"
+                    style="padding:14px 18px;border:1px solid #d1ebd9;border-radius:12px;background:#effaf2;color:#17663d;">
+                    {{ session('success') }}
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
     <footer class="site-footer">
         <div class="footer-inner">
+
             <div class="footer-copy">
-                <strong>&copy; {{ date('Y') }} Student Management System</strong>
-                <p>Student records managed with Laravel, Blade, and SQLite.</p>
+                <strong>
+                    &copy; {{ date('Y') }} Student Management System
+                </strong>
+
+                <p>
+                    Student records managed with Laravel, Blade, and SQLite.
+                </p>
             </div>
+
             <nav class="footer-links" aria-label="Footer navigation">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('students.index') }}">Students</a>
                 <a href="{{ route('about') }}">About</a>
                 <a href="{{ route('contact') }}">Contact</a>
             </nav>
+
         </div>
     </footer>
+
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
         const primaryNavigation = document.querySelector('#primary-navigation');
 
-        menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        if (menuToggle && primaryNavigation) {
+            menuToggle.addEventListener('click', () => {
+                const isExpanded =
+                    menuToggle.getAttribute('aria-expanded') === 'true';
 
-            menuToggle.setAttribute('aria-expanded', String(!isExpanded));
-            menuToggle.setAttribute('aria-label', isExpanded ? 'Open navigation menu' : 'Close navigation menu');
-            primaryNavigation.classList.toggle('is-open', !isExpanded);
-        });
+                menuToggle.setAttribute(
+                    'aria-expanded',
+                    String(!isExpanded)
+                );
+
+                menuToggle.setAttribute(
+                    'aria-label',
+                    isExpanded
+                        ? 'Open navigation menu'
+                        : 'Close navigation menu'
+                );
+
+                primaryNavigation.classList.toggle(
+                    'is-open',
+                    !isExpanded
+                );
+            });
+        }
     </script>
+
     @stack('scripts')
 </body>
 </html>

@@ -4,6 +4,18 @@
 
 @section('content')
     <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .student-page {
             width: min(960px, calc(100% - 48px));
             margin-inline: auto;
@@ -50,6 +62,48 @@
             border: 1px solid #a9ddbb;
             border-radius: 10px;
             background: #effaf2;
+            color: #176b40;
+        }
+
+        .student-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .student-filters input,
+        .student-filters select {
+            min-height: 44px;
+            flex: 1 1 220px;
+            padding: 10px 14px;
+            border: 1px solid #cbdacf;
+            border-radius: 10px;
+            background: #fff;
+            color: #18382a;
+            font: inherit;
+        }
+
+        .student-filter-submit,
+        .student-filter-clear {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: #123d2a;
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .student-filter-clear {
+            border: 1px solid #dce9df;
+            background: #fff;
             color: #176b40;
         }
 
@@ -116,6 +170,10 @@
             color: #b42318;
         }
 
+        .student-pagination {
+            margin-top: 20px;
+        }
+
         @media (max-width: 480px) {
             .student-page {
                 width: min(100% - 32px, 960px);
@@ -137,6 +195,32 @@
             <div class="student-notice" role="status">{{ session('success') }}</div>
         @endif
 
+        <form class="student-filters" method="GET" action="{{ route('students.index') }}">
+            <label class="sr-only" for="student-search">Search students by name or email</label>
+            <input
+                id="student-search"
+                name="search"
+                type="search"
+                value="{{ $search }}"
+                placeholder="Search by name or email"
+            >
+
+            <label class="sr-only" for="department-filter">Filter by department</label>
+            <select id="department-filter" name="department_id">
+                <option value="">All departments</option>
+                @foreach ($departments as $department)
+                    <option value="{{ $department->id }}" @selected((string) $departmentId === (string) $department->id)>
+                        {{ $department->name }}
+                    </option>
+                @endforeach
+            </select>
+
+            <button class="student-filter-submit" type="submit">Filter</button>
+            @if ($search || $departmentId)
+                <a class="student-filter-clear" href="{{ route('students.index') }}">Clear</a>
+            @endif
+        </form>
+
         <div class="student-table-wrap">
             <table class="student-table">
                 <thead>
@@ -144,6 +228,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Department</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -153,6 +238,7 @@
                             <td>{{ $student->id }}</td>
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->email }}</td>
+                            <td>{{ $student->department?->name ?? 'Not assigned' }}</td>
                             <td>
                                 <div class="student-actions">
                                     <a href="{{ route('students.show', $student) }}">View</a>
@@ -167,11 +253,17 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="student-empty" colspan="4">No students have been added yet. Add one to get started.</td>
+                            <td class="student-empty" colspan="5">
+                                {{ $search || $departmentId ? 'No students match the selected filters.' : 'No students have been added yet. Add one to get started.' }}
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
+
+        @if ($students->hasPages())
+            <div class="student-pagination">{{ $students->links() }}</div>
+        @endif
     </div>
 @endsection

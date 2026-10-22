@@ -130,6 +130,10 @@
                     <dd>{{ $student->email }}</dd>
                 </div>
                 <div>
+                    <dt>Department</dt>
+                    <dd>{{ $student->department?->name ?? 'Not assigned' }}</dd>
+                </div>
+                <div>
                     <dt>Record created</dt>
                     <dd>{{ $student->created_at?->format('F j, Y') ?? 'Not available' }}</dd>
                 </div>
